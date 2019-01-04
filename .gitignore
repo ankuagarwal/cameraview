@@ -8,3 +8,6 @@
 .idea/
 !.idea/copyright/*.xml
 !.idea/codeStyleSettings.xml
+library/src/main/gen
+demo/src/main/gen
+library/src/androidTest/gen

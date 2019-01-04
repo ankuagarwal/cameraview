@@ -95,7 +95,7 @@ public class CameraView extends FrameLayout {
             return;
         }
         // Internal setup
-        final PreviewImpl preview = createPreviewImpl(context);
+        final PreviewImpl preview = createPreviewImpl(context, false);
         mCallbacks = new CallbackBridge();
         mImpl = new Camera2Api23(mCallbacks, preview, context);
 
@@ -123,7 +123,10 @@ public class CameraView extends FrameLayout {
     }
 
     @NonNull
-    private PreviewImpl createPreviewImpl(Context context) {
+    private PreviewImpl createPreviewImpl(Context context, boolean isFallback) {
+        if (isFallback)
+            return new SurfaceViewPreview(context, this);
+
         return new TextureViewPreview(context, this);
     }
 
@@ -236,7 +239,7 @@ public class CameraView extends FrameLayout {
             //store the state ,and restore this state after fall back o Camera1
             Parcelable state=onSaveInstanceState();
             // Camera2 uses legacy hardware layer; fall back to Camera1
-            mImpl = new Camera1(mCallbacks, createPreviewImpl(getContext()));
+            mImpl = new Camera1(mCallbacks, createPreviewImpl(getContext(), true));
             onRestoreInstanceState(state);
             mImpl.start();
         }

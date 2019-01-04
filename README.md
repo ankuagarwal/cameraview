@@ -1,19 +1,17 @@
 # CameraView
 
-*This is a preview release. The API is subject to change.*
-
-This is not an official Google product.
+* This repo is forked from https://github.com/google/cameraview
 
 CameraView aims to help Android developers easily integrate Camera features.
 
-Requires API Level 9. The library uses Camera 1 API on API Level 9-20 and Camera2 on 21 and above.
+Requires API Level 23. The library uses Camera1 and Camera2 both. 
 
-| API Level | Camera API | Preview View |
-|:---------:|------------|--------------|
-| 9-13      | Camera1    | SurfaceView  |
-| 14-20     | Camera1    | TextureView  |
-| 21-23     | Camera2    | TextureView  |
-| 24        | Camera2    | SurfaceView  |
+| API Level | Camera API | Preview View | Fallback Camera API | Fallback Preview View |
+|:---------:|------------|--------------|---------------------|-----------------------|                
+| 23+       | Camera2    | TextureView  | Camera1             | SurfaceView           |
+
+The library tries to use Camera2, but in case the camera device used legacy hardware (INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY),
+then it fallbacks to Camera1.
 
 ## Features
 
@@ -22,6 +20,8 @@ Requires API Level 9. The library uses Camera 1 API on API Level 9-20 and Camera
   - Aspect ratio (app:aspectRatio)
   - Auto-focus (app:autoFocus)
   - Flash (app:flash)
+  - Front/Back (app:facing)
+- If layout_height is match_parent, then its displays camera is fullscreen mode
 
 ## Usage
 
@@ -29,7 +29,7 @@ Requires API Level 9. The library uses Camera 1 API on API Level 9-20 and Camera
 <com.google.android.cameraview.CameraView
     android:id="@+id/camera"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="wrap_content" 
     android:keepScreenOn="true"
     android:adjustViewBounds="true"
     app:autoFocus="true"
